@@ -1,40 +1,35 @@
-import glob from 'glob';
-import path from 'path';
 import { Sequelize } from 'sequelize';
 import logger from '../utils/logger';
+import { User } from './models/user';
 
-const db: any = {};
-const connection = new Sequelize('ragemp', 'ragemp', '#1234qwe', {
-  host: 'localhost',
+const sequelize = new Sequelize({
+  database: 'ugmp',
+  username: 'root',
+  password: '',
   dialect: 'mysql',
+  sync: { force: true },
   pool: {
-    min: 0,
     max: 5,
-    acquire: 30000,
-    idle: 10000,
+    idle: 30000,
+    acquire: 60000,
   },
 });
 
-db.connection = connection;
-db.Sequelize = Sequelize;
-
-// connection.authenticate()
-//   .then(() => logger('RAGE', 'database', 'Connection to the database has been established.', 'info'))
-//   .catch((err: string) => logger('RAGE', 'database', `Unable to connect to database. (Error: ${err})`, 'error'));
-
-glob.sync('./packages/ugrp/modules/database/models/*.js').forEach((filename: string) => {
-  const f = path.parse(filename);
-  db[f.name.toLowerCase()] = connection['import'](path.join(__dirname, './models', f.name));
-  console.log(path.join(__dirname, './models', f.name));
+sequelize.authenticate().then(() => {
+  logger('RAGE', 'mysql', 'Connection established succesfully.', 'info');
+}).catch((err) => {
+  logger('RAGE', 'mysql', `Unable to connect to database: ${err}`, 'error');
 });
 
-// let tableString;
+const models = {
+  user: User,
+};
 
-// Object.keys(db).forEach(name => {
-// tableString += db[name];
-// if(db[name].associate) {
-// db[name].associate(db);
-// }
-// });
+Object.values(models)
+  .filter((model: any) => typeof model.associate === 'function')
+  .forEach((model: any) => model.associate(models));
 
-export default db;
+export default {
+  ...models,
+  sequelize,
+};

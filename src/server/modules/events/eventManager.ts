@@ -1,6 +1,7 @@
 import logger from '../utils/logger';
 import colors from '../utils/colors';
 import { xyInFrontOfPos } from '../utils/helpers';
+import './player';
 
 export class EventManager {
   constructor() {

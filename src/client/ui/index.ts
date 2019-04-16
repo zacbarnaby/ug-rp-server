@@ -43,20 +43,17 @@ class Interface {
   }
 }
 
-mp.events.add('setupInterface', () => {
+mp.events.add('setupInterface', (state: boolean) => {
   ui = new Interface();
-});
-
-mp.events.add('doesAccountExist', (state) => {
   ui.execute('doesAccountExist', state);
 });
 
-mp.events.add('outputChatBox', (name, string, color) => {
+mp.events.add('outputChatBox', (name: string, string: string, color: string) => {
   const message = JSON.stringify({ name, color, message: string });
   ui.chatbox.execute(`chatAPI.push(${message});`);
 });
 
-mp.events.add('authResult', (result) => {
+mp.events.add('authResult', (result: string) => {
   const { success } = JSON.parse(result);
   if (success) {
     ui.blur(false, 0.5);
@@ -68,6 +65,6 @@ mp.events.add('authResult', (result) => {
   ui.execute('authResult', result);
 });
 
-mp.events.add('sendData', (data) => {
+mp.events.add('sendData', (data: string) => {
   ui.send(data);
 });

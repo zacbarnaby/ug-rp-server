@@ -17,7 +17,7 @@ Object.assign(mp.Player.prototype, {
   login(username: string, password: string) {
     return new Promise((resolve, reject) => {
       database.user.findOne({ raw: true, where: { username } })
-        .then((account: UGAccount) => {
+        .then((account: any) => {
           bcrypt.compare(password, account.password, (err: object, res: Boolean) => {
             if (res === true) resolve(account);
             else reject('Incorrect username or password.');
@@ -32,7 +32,7 @@ Object.assign(mp.Player.prototype, {
     return new Promise((resolve, reject) => {
       bcrypt.hash(password, 10, (err: object, hash: string) => {
         database.user.create({ username, password: hash })
-          .then((account: UGAccount) => resolve(account))
+          .then((account: any) => resolve(account))
           .catch(() => reject('An unknown error occurred. Try again later.'));
       });
     });

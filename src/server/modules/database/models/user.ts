@@ -1,19 +1,52 @@
-import * as Sequelize from 'sequelize';
-// import logger from '../modules/utils/logger';
+// import * as Sequelize from 'sequelize';
 
-export default (sequelize: Sequelize.Sequelize, dataTypes: any) => {
-  const user = sequelize.define('user', {
-    username: dataTypes.STRING,
-    password: dataTypes.STRING,
-    admin: dataTypes.INTEGER,
-    position: dataTypes.STRING,
-  });
+// export default (sequelize: Sequelize.Sequelize, dataTypes: any) => {
+//   class User extends Sequelize.Model {}
 
-  // user.associate = (models) => {};
+//   User.init(
+//     {
+//       username: {
+//         type: Sequelize.STRING,
+//       },
+//       password: {
+//         type: Sequelize.STRING,
+//       },
+//       admin: {
+//         type: Sequelize.INTEGER,
+//       },
+//       position: {
+//         type: Sequelize.JSON,
+//       },
+//     },
+//     {
+//       sequelize,
+//       modelName: 'user',
+//     });
+// };
 
-  // user.sync().then(() => {
-  //  logger('RAGE', 'database', 'Table (user) has been synced.', 'info');
-  // });
+import sequelize from 'sequelize';
 
-  return user;
-};
+export class User extends sequelize.Model {
+  static init(sequelize) {
+    return super.init(
+      {
+        username: {
+          type: sequelize.STRING,
+        },
+        password: {
+          type: sequelize.STRING,
+        },
+        admin: {
+          type: sequelize.INTEGER,
+        },
+        position: {
+          type: sequelize.JSON,
+        },
+      },
+      {
+        sequelize,
+        modelName: 'user',
+      },
+    );
+  }
+}
