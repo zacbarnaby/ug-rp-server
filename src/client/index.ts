@@ -1,2 +1,2 @@
-import './ui';
+import './ugrp';
 import './events';

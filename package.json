@@ -1,5 +1,5 @@
 {
-  "name": "unique-gaming-ragemp",
+  "name": "unique-gaming-ragemp-server",
   "version": "1.0.0",
   "description": "",
   "main": "./packages/ugrp/index.js",

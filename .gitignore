@@ -5,7 +5,7 @@ plugins/
 client_packages/
 packages/
 maps/
+**/dist/
 server.exe
 node.dll
 bt.dat
-ui_src

@@ -5,7 +5,7 @@ class Interface {
   chatbox: BrowserMp;
 
   constructor() {
-    this.browser = mp.browsers.new('package://ui/dist/index.html');
+    this.browser = mp.browsers.new('package://ugrp/dist/index.html');
     this.chatbox = mp.browsers.new('package://chat/dist/index.html');
 
     mp.gui.chat.activate(false);
