@@ -22,7 +22,7 @@ db.Sequelize = Sequelize;
 //   .then(() => logger('RAGE', 'database', 'Connection to the database has been established.', 'info'))
 //   .catch((err: string) => logger('RAGE', 'database', `Unable to connect to database. (Error: ${err})`, 'error'));
 
-glob.sync('./packages/server/modules/database/models/*.js').forEach((filename: string) => {
+glob.sync('./packages/ugrp/modules/database/models/*.js').forEach((filename: string) => {
   const f = path.parse(filename);
   db[f.name.toLowerCase()] = connection['import'](path.join(__dirname, './models', f.name));
   console.log(path.join(__dirname, './models', f.name));

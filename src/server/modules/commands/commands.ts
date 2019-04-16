@@ -4,16 +4,16 @@ import colors from '../utils/colors';
 export class Commands {
   constructor() {
     mp.events.addCommand({
-      gmx: this.gmx,
-      goto: this.goto,
-      veh: this.veh,
-      del: this.del,
-      wep: this.wep,
-      kill: this.kill,
+      gmx: this.reloadServer,
+      goto: this.gotoPlayer,
+      veh: this.spawnVehicle,
+      del: this.deleteSpawnedVehicles,
+      wep: this.spawnWeapon,
+      kill: this.suicide,
     });
   }
 
-  gmx(player: UGPlayerMp, fullText: string) {
+  reloadServer(player: UGPlayerMp, fullText: string) {
     mp.players.forEach((ply: UGPlayerMp) => {
       ply.save()
         .then(() => {
@@ -27,7 +27,7 @@ export class Commands {
     process.exit(0);
   }
 
-  goto(player: UGPlayerMp, fullText: string, name: string, silent: string) {
+  gotoPlayer(player: UGPlayerMp, fullText: string, name: string, silent: string) {
     if (!name) {
       return player.call('outputChatBox', ['Error', 'Incorrect Usage: /goto [name]', colors.red]);
     }
@@ -55,7 +55,7 @@ export class Commands {
     player.call('outputChatBox', ['Server', `You have teleported to ${target.name}'s position.`, colors.blue]);
   }
 
-  veh(player: UGPlayerMp, fullText: string, name: string) {
+  spawnVehicle(player: UGPlayerMp, fullText: string, name: string) {
     if (!name) {
       return player.call('outputChatBox', ['Error', 'Incorrect Usage: /veh [name/id]', colors.red]);
     }
@@ -68,7 +68,7 @@ export class Commands {
     player.call('getAdminVehicleName', [vehicle]);
   }
 
-  del(player: UGPlayerMp, fullText: string) {
+  deleteSpawnedVehicles(player: UGPlayerMp, fullText: string) {
     if (player.spawnedVehicles.length === 0) {
       return player.call('outputChatBox', ['Error', 'You haven\'t spawned any vehicles.', colors.red]);
     }
@@ -78,7 +78,7 @@ export class Commands {
     player.call('outputChatBox', ['Server', 'You have despawned all your spawned vehicles.', colors.blue]);
   }
 
-  wep(player: UGPlayerMp, fullText: string, name: string) {
+  spawnWeapon(player: UGPlayerMp, fullText: string, name: string) {
     if (!name) {
       return player.call('outputChatBox', ['Error', 'Incorrect Usage: /wep [name/id]', colors.red]);
     }
@@ -92,7 +92,7 @@ export class Commands {
     player.call('outputChatBox', ['Server', `You have given yourself a ${weapon.display}.`, colors.blue]);
   }
 
-  kill(player: UGPlayerMp) {
+  suicide(player: UGPlayerMp) {
     player.health = 0;
   }
 }
