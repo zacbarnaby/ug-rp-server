@@ -1,8 +1,27 @@
 {
-  "name": "server-files",
+  "name": "unique-gaming-ragemp",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./packages/ugrp/index.js",
+  "scripts": {
+    "server:watch": "tsc --project src/server/tsconfig.json --watch",
+    "server:build": "tsc --project src/server/tsconfig.json",
+    "server:lint": "tslint --project src/server/tsconfig.json",
+    "client:watch": "tsc --project src/client/tsconfig.json --watch",
+    "client:build": "tsc --project src/client/tsconfig.json",
+    "client:lint": "tslint --project src/client/tsconfig.json",
+    "run": "nodemon --signal SIGTERM --exec \"./server.exe\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zacbarnaby/ug-rp-server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zacbarnaby/ug-rp-server/issues"
+  },
+  "homepage": "https://ug-rp.com/",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "glob": "^7.1.3",
@@ -11,12 +30,13 @@
     "sequelize": "^5.2.8"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/glob": "^7.1.1",
     "@types/ragemp-c": "github:CocaColaBear/types-ragemp-c#master",
-    "@types/ragemp-s": "github:CocaColaBear/types-ragemp-s#master"
-  },
-  "scripts": {
-    "run": "nodemon --signal SIGTERM --exec \"./server.exe\""
-  },
-  "author": "",
-  "license": "ISC"
+    "@types/ragemp-s": "github:CocaColaBear/types-ragemp-s#master",
+    "@types/sequelize": "^4.27.47",
+    "tslint": "^5.15.0",
+    "tslint-config-airbnb": "^5.11.1",
+    "typescript": "^3.4.3"
+  }
 }

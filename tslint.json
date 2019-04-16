@@ -1,0 +1,14 @@
+{
+  "extends": "tslint-config-airbnb",
+  "env": {
+    "node": true,
+    "es6": true,
+    "browser": true
+  },
+  "rules": {
+    "max-line-length": {
+      "options": { "limit": 180 },
+      "severity": "warn"
+    }
+  }
+}

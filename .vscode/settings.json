@@ -1,0 +1,12 @@
+{
+  "files.exclude": {
+    "bridge/": true,
+    "node_modules/": true,
+    "logs/": true,
+    "maps/": true,
+    "plugins/": true,
+    "bt.dat": true,
+    "node.dll": true,
+    "server.exe": true
+  }
+}

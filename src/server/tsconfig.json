@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "es6",
+    "sourceMap": false,
+    "outDir": "../../packages/ugrp",
+    "rootDir": ".",
+    "baseUrl": ".",
+    "removeComments": true,
+    "resolveJsonModule": true,
+    "types": [
+      "node",
+      "bcryptjs",
+      "glob",
+      "sequelize",
+      "ragemp-s"
+    ]
+  },
+  "include": [
+    "**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts"
+  ]
+}

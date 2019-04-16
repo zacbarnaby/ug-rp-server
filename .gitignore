@@ -1,7 +1,10 @@
-node_modules
-logs
-src
+node_modules/
+logs/
+bridge/
+plugins/
+client_packages/
+packages/
+maps/
 server.exe
 node.dll
 bt.dat
-plugins

@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "es6",
+    "allowJs": true,
+    "sourceMap": false,
+    "outDir": "../../client_packages/ugrp",
+    "rootDir": ".",
+    "baseUrl": ".",
+    "removeComments": true,
+    "resolveJsonModule": true,
+    "types": [
+      "node",
+      "ragemp-c"
+    ]
+  },
+  "include": [
+    "**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts"
+  ]
+}
