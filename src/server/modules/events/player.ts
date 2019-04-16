@@ -9,14 +9,8 @@ mp.events.add('playerReady', (player: UGPlayerMp) => {
   logger('RAGE', 'player', `${player.name} is ready.`, 'info');
 
   player.exists()
-    .then(() => {
-      player.call('setupInterface', [true]);
-      console.log('exists');
-    })
-    .catch((err) => {
-      player.call('setupInterface', [false]);
-      console.log('doesnt');
-    });
+    .then(() => player.call('setupInterface', [true]))
+    .catch(() => player.call('setupInterface', [false]));
 });
 
 mp.events.add('playerQuit', (player: UGPlayerMp, exitType: string, reason: string) => {

@@ -1,46 +1,21 @@
-// import * as Sequelize from 'sequelize';
+import * as Sequelize from 'sequelize';
 
-// export default (sequelize: Sequelize.Sequelize, dataTypes: any) => {
-//   class User extends Sequelize.Model {}
-
-//   User.init(
-//     {
-//       username: {
-//         type: Sequelize.STRING,
-//       },
-//       password: {
-//         type: Sequelize.STRING,
-//       },
-//       admin: {
-//         type: Sequelize.INTEGER,
-//       },
-//       position: {
-//         type: Sequelize.JSON,
-//       },
-//     },
-//     {
-//       sequelize,
-//       modelName: 'user',
-//     });
-// };
-
-import sequelize from 'sequelize';
-
-export class User extends sequelize.Model {
-  static init(sequelize) {
+// @ts-ignore
+export class User extends Sequelize.Model {
+  static init(sequelize: Sequelize.Sequelize): any {
     return super.init(
       {
         username: {
-          type: sequelize.STRING,
+          type: Sequelize.STRING,
         },
         password: {
-          type: sequelize.STRING,
+          type: Sequelize.STRING,
         },
         admin: {
-          type: sequelize.INTEGER,
+          type: Sequelize.INTEGER,
         },
         position: {
-          type: sequelize.JSON,
+          type: Sequelize.JSON,
         },
       },
       {
@@ -48,5 +23,8 @@ export class User extends sequelize.Model {
         modelName: 'user',
       },
     );
+  }
+
+  static associate(models) {
   }
 }

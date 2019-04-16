@@ -23,7 +23,6 @@ export class EventManager {
           .then((account: UGAccount) => {
             logger('RAGE', 'account', `${player.name} has created an account. (Id: ${account.id})`, 'info');
 
-            player.call('toggleAuthentication', [false]);
             player.call('authResult', [JSON.stringify({ action: 'register', success: true })]);
             player.call('outputChatBox', ['Server', `Welcome ${player.name}. You have succesfully created a new account.`, colors.green]);
             player.handleLogin(account);
@@ -37,7 +36,7 @@ export class EventManager {
         player.login(player.name, password)
           .then((account: UGAccount) => {
             logger('RAGE', 'account', `${player.name} has logged in. (Id: ${account.id})`, 'info');
-            player.call('toggleAuthentication', [false]);
+
             player.call('authResult', [JSON.stringify({ action: 'login', success: true })]);
             player.call('outputChatBox', ['Server', `Welcome back ${player.name}. You have succesfully logged in.`, colors.green]);
             player.handleLogin(account);

@@ -5,6 +5,7 @@ interface UGAccount {
   id: number,
   username: string,
   password: string,
+  admin: number,
   position: string,
 }
 

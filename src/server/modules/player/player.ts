@@ -5,7 +5,7 @@ import * as bcrypt from 'bcryptjs';
 Object.assign(mp.Player.prototype, {
   exists() {
     return new Promise((resolve, reject) => {
-      const username = (<PlayerMp>this).name;
+      const username = this.name;
       database.user.count({ where: { username } })
         .then((count: Number) => {
           if (count !== 0) resolve();
@@ -40,11 +40,14 @@ Object.assign(mp.Player.prototype, {
   save() {
     const { x, y, z } = this.position;
     const position = JSON.stringify({ x, y, z, r: this.heading });
-    return database.user.update({ position, admin: this.account.admin }, { where: { id: this.account.uid } });
+    return database.user.update({ position, admin: this.admin }, { where: { id: this.accountid } });
   },
   handleLogin(account: UGAccount) {
-    (<UGPlayerMp>this).logged = true;
-    (<UGPlayerMp>this).account = account;
-    (<UGPlayerMp>this).spawnedVehicles = [];
+    const { id, admin } = account;
+
+    this.logged = true;
+    this.accountid = id;
+    this.admin = admin;
+    this.spawnedVehicles = [];
   },
 });

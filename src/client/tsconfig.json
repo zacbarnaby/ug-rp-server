@@ -5,7 +5,7 @@
     "target": "es6",
     "allowJs": true,
     "sourceMap": false,
-    "outDir": "../../client_packages/ugrp",
+    "outDir": "../../client_packages",
     "rootDir": ".",
     "baseUrl": ".",
     "removeComments": true,
