@@ -41,10 +41,10 @@ mp.events.add('playerQuit', (player: UGPlayerMp, exitType: string, reason: strin
 
 mp.events.add('playerDeath', (player: UGPlayerMp, reason: number, killer: UGPlayerMp) => {
   if (killer) {
-    mp.players.call('outputChatBox', ['Server', `${killer.name} has killed ${player.name}.`, colors.grey]);
+    //mp.players.call('outputChatBox', ['Server', `${killer.name} has killed ${player.name}.`, colors.grey]);
     logger('RAGE', 'death', `${killer.name} has killed ${player.name}. (${reason})`, 'info');
   } else {
-    mp.players.call('outputChatBox', ['Server', `${player.name} has died.`, colors.grey]);
+    //mp.players.call('outputChatBox', ['Server', `${player.name} has died.`, colors.grey]);
     logger('RAGE', 'death', `${player.name} has died.`, 'info');
   }
 });

@@ -15,8 +15,9 @@ globby(['./src/**/package.json', '!**/node_modules/**/*'])
 
       const start = process.hrtime();
       process.chdir(path.dirname(file));
+      //exec('npm install');
       exec('npm run dist');
-
+      
       const end = process.hrtime(start);
       console.log(`"${package.name}" built in ${end[0]} seconds.`);
     });

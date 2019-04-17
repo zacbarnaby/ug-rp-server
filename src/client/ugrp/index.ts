@@ -2,17 +2,13 @@ let ui: Interface = null;
 
 class Interface {
   browser: BrowserMp;
-  chatbox: BrowserMp;
 
   constructor() {
     this.browser = mp.browsers.new('package://ugrp/dist/index.html');
-    this.chatbox = mp.browsers.new('package://chat/dist/index.html');
-
     mp.gui.chat.activate(false);
     mp.gui.chat.show(false);
     mp.gui.cursor.show(true, true);
     this.browser.active = true;
-    this.chatbox.markAsChat();
 
     this.hud(false);
     this.blur(true, 0.1);
@@ -46,11 +42,7 @@ class Interface {
 mp.events.add('setupInterface', (state: boolean) => {
   ui = new Interface();
   ui.execute('doesAccountExist', state);
-});
-
-mp.events.add('outputChatBox', (name: string, string: string, color: string) => {
-  const message = JSON.stringify({ name, color, message: string });
-  ui.chatbox.execute(`chatAPI.push(${message});`);
+  mp.events.call('joinScenary', true);
 });
 
 mp.events.add('authResult', (result: string) => {
@@ -58,8 +50,9 @@ mp.events.add('authResult', (result: string) => {
   if (success) {
     ui.blur(false, 0.5);
     ui.hud(true);
-    mp.gui.chat.activate(true);
+    mp.gui.chat.show(true);
     mp.gui.cursor.show(false, false);
+    mp.events.call('joinScenary', false);
   }
 
   ui.execute('authResult', result);

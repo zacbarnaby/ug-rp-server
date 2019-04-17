@@ -7,6 +7,8 @@
     "plugins/": true,
     "bt.dat": true,
     "node.dll": true,
-    "server.exe": true
+    "server.exe": true,
+    "client_packages/": false,
+    "packages/": true
   }
 }

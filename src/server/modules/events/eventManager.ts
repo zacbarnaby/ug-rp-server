@@ -1,6 +1,6 @@
 import logger from '../utils/logger';
 import colors from '../utils/colors';
-import { xyInFrontOfPos } from '../utils/helpers';
+import { xyInFrontOfPos, savePlayers } from '../utils/helpers';
 import './player';
 
 export class EventManager {
@@ -8,6 +8,7 @@ export class EventManager {
     mp.events.add({
       recieveClientData: this.recieveClientData,
       onAdminSpawnedVehicle: this.onAdminSpawnedVehicle,
+      savePlayers: this.savePlayers,
     });
   }
 
@@ -24,7 +25,7 @@ export class EventManager {
             logger('RAGE', 'account', `${player.name} has created an account. (Id: ${account.id})`, 'info');
 
             player.call('authResult', [JSON.stringify({ action: 'register', success: true })]);
-            player.call('outputChatBox', ['Server', `Welcome ${player.name}. You have succesfully created a new account.`, colors.green]);
+            //player.call('outputChatBox', ['Server', `Welcome ${player.name}. You have succesfully created a new account.`, colors.green]);
             player.handleLogin(account);
           })
           .catch(err => logger('RAGE', 'account', `Error creating an account for ${player.name}. (Error: ${err})`, 'error'));
@@ -38,7 +39,7 @@ export class EventManager {
             logger('RAGE', 'account', `${player.name} has logged in. (Id: ${account.id})`, 'info');
 
             player.call('authResult', [JSON.stringify({ action: 'login', success: true })]);
-            player.call('outputChatBox', ['Server', `Welcome back ${player.name}. You have succesfully logged in.`, colors.green]);
+            //player.call('outputChatBox', ['Server', `Welcome back ${player.name}. You have succesfully logged in.`, colors.green]);
             player.handleLogin(account);
             player.spawn(JSON.parse(account.position));
           })
@@ -62,7 +63,13 @@ export class EventManager {
 
     player.spawnedVehicles.push(vehicle);
     player.putIntoVehicle(vehicle, -1);
-    player.call('outputChatBox', ['Server', `You have spawned a ${display}.`, colors.blue]);
+    //player.call('outputChatBox', ['Server', `You have spawned a ${display}.`, colors.blue]);
     logger('RAGE', 'server', `${player.name} has spawned a ${display}.`, 'info');
+  }
+
+  savePlayers() {
+    savePlayers(() => {
+      process.exit(0);
+    });
   }
 }

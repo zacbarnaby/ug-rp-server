@@ -15,7 +15,7 @@ export class User extends Sequelize.Model {
           type: Sequelize.INTEGER,
         },
         position: {
-          type: Sequelize.JSON,
+          type: Sequelize.STRING,
         },
       },
       {

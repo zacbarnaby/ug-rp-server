@@ -1,5 +1,6 @@
 import vehicles from '../../data/vehicles';
 import weapons from '../../data/weapons';
+import logger from '../utils/logger';
 
 weapons.sort((a, b) => {
   const left = a.display.toLowerCase();
@@ -85,6 +86,29 @@ export function getVehicle(nameOrPart: string) {
   }
 
   return getVehicleFromName(nameOrPart);
+}
+
+export function savePlayers(callback: any) {
+  let id = 0;
+  const save = new Promise(
+  (resolve, reject) => {
+    mp.players.forEach((ply: UGPlayerMp) => {
+      id = id + 1;
+      ply.save()
+        .then(() => {
+          resolve();
+        })
+        .catch((err) => {
+          logger('RAGE', 'server', `Failed to save players (Err: ${err})`, 'error');
+        });
+      if (id === mp.players.length - 1) {
+        resolve();
+      }
+    });
+  });
+  save.then(() => {
+    callback();
+  });
 }
 
 /**
