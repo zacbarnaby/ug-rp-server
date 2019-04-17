@@ -5,11 +5,13 @@
   "main": "./packages/ugrp/index.js",
   "scripts": {
     "server:watch": "tsc --project src/server/tsconfig.json --watch",
-    "server:build": "tsc --project src/server/tsconfig.json",
+    "server:build": "npm run server:lint && tsc --project src/server/tsconfig.json",
     "server:lint": "tslint --project src/server/tsconfig.json",
     "client:watch": "tsc --project src/client/tsconfig.json --watch",
-    "client:build": "tsc --project src/client/tsconfig.json",
+    "client:build": "npm run client:lint && tsc --project src/client/tsconfig.json",
     "client:lint": "tslint --project src/client/tsconfig.json",
+    "ui:build": "node ./src/build.js",
+    "build": "npm run server:build && npm run client:build && npm run ui:build",
     "run": "nodemon --signal SIGTERM --exec \"./server.exe\""
   },
   "repository": {
@@ -35,6 +37,7 @@
     "@types/ragemp-c": "github:CocaColaBear/types-ragemp-c#master",
     "@types/ragemp-s": "github:CocaColaBear/types-ragemp-s#master",
     "@types/sequelize": "^4.27.47",
+    "globby": "^9.2.0",
     "tslint": "^5.15.0",
     "tslint-config-airbnb": "^5.11.1",
     "typescript": "^3.4.3"

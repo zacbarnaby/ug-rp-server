@@ -3,20 +3,18 @@ const path = require('path');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-const isDevServer = path.basename(require.main.filename) === 'webpack-dev-server.js';
-
-// ../client_packages/ui/dist
+// generate the client_packages output directory
+const outputPath = __dirname.replace('src\\client', 'client_packages').replace('src', 'dist');
 
 module.exports = (env, options) => {
   return {
     entry: ['./main.js'],
     output: {
-      path: path.resolve(__dirname, '../dist'),
+      path: outputPath,
       filename: 'main.js',
     },
     devServer: {
-      // historyApiFallback: true,
-      contentBase: path.join(__dirname, '../dist'),
+      contentBase: outputPath,
     },
     module: {
       rules: [
