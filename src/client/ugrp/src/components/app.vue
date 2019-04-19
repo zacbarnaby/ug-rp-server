@@ -5,6 +5,7 @@
       <UserRegister v-else></UserRegister>
     </div>
 
+    <notifications position="bottom right" class="notify"></notifications>
     <hud-phone ref="phone"></hud-phone>
   </div>
 </template>
@@ -18,17 +19,21 @@
 
   //
   import PhoneHUD from './hud/phone.vue';
+  import Notify from './hud/notifications.vue';
 
   export default {
     el: '#app',
     store,
     components: {
       UserLogin, UserRegister,
-      PhoneHUD,
+      PhoneHUD, Notify
     },
     created() {
       this.$on('send', data => mp.trigger('sendData', JSON.stringify(data)));
       this.$on('doesAccountExist', data => this.$store.dispatch('user/accountExists', data));
+      this.$on('notify', data => {
+        window.vm.$emit('showNotification', data);
+      });
     },
     computed: mapState({
       loggedIn: s => s.user.loggedIn,
@@ -53,6 +58,29 @@
       align-items: center;
       width: 100%;
       height: 100vh;
+    }
+  }
+
+  .notify {
+    bottom: 100px !important;
+    right: 5px !important;
+
+    .vue-notification {
+      border-bottom: 4px solid #187fe7 !important;
+      border-left: none;
+      background: rgba(0, 0, 0, 0.6) !important;
+
+      &.warn {
+        border-color: #f48a06 !important;
+      }
+
+      &.error {
+        border-color: #B82E24 !important;
+      }
+
+      &.success {
+        border-color: #42A85F !important;
+      }
     }
   }
 

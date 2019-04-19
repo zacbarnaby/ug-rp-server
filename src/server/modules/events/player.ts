@@ -3,6 +3,7 @@ import colors from '../utils/colors';
 
 mp.events.add('playerJoin', (player: UGPlayerMp) => {
   logger('RAGE', 'join', `${player.name} has joined the server.`, 'info');
+  mp.players.call('notify', [`${player.name} has joined the server.`, 'Join']);
 });
 
 mp.events.add('playerReady', (player: UGPlayerMp) => {
@@ -24,16 +25,23 @@ mp.events.add('playerQuit', (player: UGPlayerMp, exitType: string, reason: strin
   switch (exitType) {
     case 'disconnect': {
       logger('RAGE', 'quit', `${player.name} has left the server.`, 'info');
+      mp.players.call('notify', [`${player.name} has left the server.`, 'Quit']);
       break;
     }
 
     case 'timeout': {
       logger('RAGE', 'quit', `${player.name} has left the server. (Timed out)`, 'info');
+      mp.players.call('notify', [`${player.name} has left the server. (Timed out)`, 'Quit']);
       break;
     }
 
     case 'kicked': {
       logger('RAGE', 'quit', `${player.name} has been kicked from the server. (Reason: ${reason})`, 'info');
+      if (reason) {
+        mp.players.call('notify', [`${player.name} has been kicked from the server.`, 'Quit']);
+      } else {
+        mp.players.call('notify', [`${player.name} has been kicked from the server. Reason: ${reason}`, 'Quit']);
+      }
       break;
     }
   }
@@ -41,10 +49,8 @@ mp.events.add('playerQuit', (player: UGPlayerMp, exitType: string, reason: strin
 
 mp.events.add('playerDeath', (player: UGPlayerMp, reason: number, killer: UGPlayerMp) => {
   if (killer) {
-    //mp.players.call('outputChatBox', ['Server', `${killer.name} has killed ${player.name}.`, colors.grey]);
     logger('RAGE', 'death', `${killer.name} has killed ${player.name}. (${reason})`, 'info');
   } else {
-    //mp.players.call('outputChatBox', ['Server', `${player.name} has died.`, colors.grey]);
     logger('RAGE', 'death', `${player.name} has died.`, 'info');
   }
 });

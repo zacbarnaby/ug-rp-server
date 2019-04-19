@@ -11,6 +11,7 @@ export class Commands {
       del: this.deleteSpawnedVehicles,
       wep: this.spawnWeapon,
       kill: this.suicide,
+      test: this.test,
     });
   }
 
@@ -28,6 +29,7 @@ export class Commands {
   gotoPlayer(player: UGPlayerMp, fullText: string, name: string, silent: string) {
     if (!name) {
       //return player.call('outputChatBox', ['Error', 'Incorrect Usage: /goto [name]', colors.red]);
+      player.call('notify', ['/goto [name]', 'Incorrect Usage', 'error']);
     }
 
     // find the player
@@ -92,5 +94,9 @@ export class Commands {
 
   suicide(player: UGPlayerMp) {
     player.health = 0;
+  }
+
+  test(player: UGPlayerMp) {
+    player.call('notify', ['hey']);
   }
 }

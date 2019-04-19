@@ -12,9 +12,15 @@ window.mp = {
 window.vm.$store.dispatch('user/loginResult', true);
 
 // toggle phone (p key)
-document.addEventListener('keyup', (event) => {
+/*document.addEventListener('keyup', (event) => {
   if (event.which === 80) {
     window.vm.$emit('phone--toggle');
+  }
+});*/
+
+document.addEventListener('keyup', (event) => {
+  if (event.which === 80) {
+    
   }
 });
 

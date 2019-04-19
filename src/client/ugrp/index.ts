@@ -45,6 +45,10 @@ mp.events.add('setupInterface', (state: boolean) => {
   mp.events.call('joinScenary', true);
 });
 
+mp.events.add('notify', (text, title, type, duration) => {
+  ui.execute('notify', JSON.stringify({ text, title, type, duration }));
+});
+
 mp.events.add('authResult', (result: string) => {
   const { success } = JSON.parse(result);
   if (success) {
