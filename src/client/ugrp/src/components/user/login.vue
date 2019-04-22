@@ -49,8 +49,8 @@
   export default Vue.component('UserLogin', {
     data() {
       return {
-        username: '',
-        password: '',
+        username: 'cloud',
+        password: 'test',
         sent: false,
         success: false,
         error: '',

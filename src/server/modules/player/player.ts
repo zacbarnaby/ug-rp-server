@@ -1,5 +1,6 @@
 import database from '../database/database';
 import * as bcrypt from 'bcryptjs';
+import '../utils/global';
 
 // @ts-ignore
 Object.assign(mp.Player.prototype, {
@@ -49,5 +50,9 @@ Object.assign(mp.Player.prototype, {
     this.accountid = id;
     this.admin = admin;
     this.spawnedVehicles = [];
+
+    this.setVariable('isRobbing', false);
+
+    mp.events.call('sendClientBankData', this);
   },
 });

@@ -11,12 +11,17 @@ window.mp = {
 // fake login
 window.vm.$store.dispatch('user/loginResult', true);
 
+window.vm.$nextTick(() => {
+  window.vm.$emit('banking--toggle');
+});
+
+
 // toggle phone (p key)
-/*document.addEventListener('keyup', (event) => {
+document.addEventListener('keyup', (event) => {
   if (event.which === 80) {
-    window.vm.$emit('phone--toggle');
+    //window.vm.$emit('phone--toggle');
   }
-});*/
+});
 
 document.addEventListener('keyup', (event) => {
   if (event.which === 80) {

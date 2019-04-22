@@ -1,6 +1,8 @@
 import { getPlayer, getWeapon, getVehicle, savePlayers } from '../utils/helpers';
 import colors from '../utils/colors';
 import { resolve } from 'bluebird';
+import vehicles from 'data/vehicles';
+import logger from '../utils/logger';
 
 export class Commands {
   constructor() {
@@ -11,6 +13,8 @@ export class Commands {
       del: this.deleteSpawnedVehicles,
       wep: this.spawnWeapon,
       kill: this.suicide,
+      revive: this.revive,
+      pos: this.pos,
       test: this.test,
     });
   }
@@ -28,41 +32,41 @@ export class Commands {
 
   gotoPlayer(player: UGPlayerMp, fullText: string, name: string, silent: string) {
     if (!name) {
-      //return player.call('outputChatBox', ['Error', 'Incorrect Usage: /goto [name]', colors.red]);
-      player.call('notify', ['/goto [name]', 'Incorrect Usage', 'error']);
+      return player.call('notify', ['/goto [name]', 'Incorrect Usage', 'error']);
     }
 
     // find the player
     const target = getPlayer(name);
     if (!target) {
-      //return player.call('outputChatBox', ['Error', 'That player is not online.', colors.red]);
+      return player.call('notify', ['That player is not online.', 'Error', 'error']);
     }
 
     if (!target.logged) {
-      //return player.call('outputChatBox', ['Error', 'That player has not logged in yet.', colors.red]);
+      return player.call('notify', ['That player is not logged in.', 'Error', 'error']);
     }
 
     player.position = target.position;
 
     if (target.vehicle) {
+      player.position = target.position;
       player.putIntoVehicle(target.vehicle, 0);
     }
 
     if (silent === '0') {
-      //target.call('outputChatBox', ['Server', 'An admin has teleported to your location.', colors.blue]);
+      player.call('notify', ['An admin has teleported to your position.', 'Server', 'warn']);
     }
 
-    //player.call('outputChatBox', ['Server', `You have teleported to ${target.name}'s position.`, colors.blue]);
+    player.call('notify', [`You have teleported to ${target.name}'s position`, 'Admin']);
   }
 
   spawnVehicle(player: UGPlayerMp, fullText: string, name: string) {
     if (!name) {
-      return player.call('outputChatBox', ['Error', 'Incorrect Usage: /veh [name/id]', colors.red]);
+      return player.call('notify', ['/veh [name/id]', 'Incorrect Usage', 'error']);
     }
 
     const vehicle = getVehicle(name);
     if (!vehicle) {
-      return player.call('outputChatBox', ['Error', 'That vehicle does not exist.', colors.red]);
+      return player.call('notify', ['That vehicle does not exist.', 'Error', 'error']);
     }
 
     player.call('getAdminVehicleName', [vehicle]);
@@ -70,33 +74,45 @@ export class Commands {
 
   deleteSpawnedVehicles(player: UGPlayerMp, fullText: string) {
     if (player.spawnedVehicles.length === 0) {
-      //return player.call('outputChatBox', ['Error', 'You haven\'t spawned any vehicles.', colors.red]);
+      player.call('notify', ['You haven\'t spawned any vehicles.', 'Error', 'error']);
     }
 
     player.spawnedVehicles.forEach((vehicle: VehicleMp) => vehicle.destroy());
     player.spawnedVehicles = [];
-    //player.call('outputChatBox', ['Server', 'You have despawned all your spawned vehicles.', colors.blue]);
+    player.call('notify', ['You have despawned all of your spawned vehicles.', 'Admin']);
   }
 
   spawnWeapon(player: UGPlayerMp, fullText: string, name: string) {
     if (!name) {
-      //return player.call('outputChatBox', ['Error', 'Incorrect Usage: /wep [name/id]', colors.red]);
+      return player.call('notify', ['/wep [name/id]', 'Incorrect Usage', 'error']);
     }
 
     const weapon = getWeapon(name);
     if (!weapon) {
-      //return player.call('outputChatBox', ['Error', 'That weapon does not exist.', colors.red]);
+      return player.call('notify', ['That weapon does not exist.', 'Error', 'error']);
     }
 
     player.giveWeapon(mp.joaat(weapon.name), 1000);
-    //player.call('outputChatBox', ['Server', `You have given yourself a ${weapon.display}.`, colors.blue]);
+    player.call('notify', [`You have given yourself a ${weapon.display}.`, 'Admin']);
   }
 
   suicide(player: UGPlayerMp) {
     player.health = 0;
+    player.call('notify', ['You have killed yourself.', 'Admin']);
+  }
+
+  revive(player: UGPlayerMp) {
+    player.health = 100;
+    player.position.x += 1;
+    player.spawn(player.position);
+    player.call('notify', ['You have revived yourself.', 'Admin']);
+  }
+
+  pos(player: UGPlayerMp) {
+    logger('RAGE', 'server', `${player.position.x}, ${player.position.y}, ${player.position.z}, ${player.heading}`, 'info');
   }
 
   test(player: UGPlayerMp) {
-    player.call('notify', ['hey']);
+   
   }
 }

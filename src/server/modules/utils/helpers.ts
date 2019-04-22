@@ -11,9 +11,9 @@ weapons.sort((a, b) => {
   return 0;
 });
 
-// mp.events.add('clientLog', (player, type, string, error) => {
-//     return logger('CLIENT', type, string, error);
-// });
+mp.events.add('clientLog', (player, type, string, error) => {
+  return logger('CLIENT', type, string, error);
+});
 
 /**
  * Get a player by their nickname
@@ -109,6 +109,21 @@ export function savePlayers(callback: any) {
   save.then(() => {
     callback();
   });
+}
+
+export function robbingWeapon(weapon) {
+  const illegal = [
+    'weapon_unarmed',
+    'weapon_flashlight',
+    'weapon_snowball',
+    'weapon_ball',
+    'weapon_flare',
+    'weapon_fireextinguisher',
+    'gadget_parachute',
+    'weapon_petrolcan',
+    'weapon_knuckle'
+  ];
+  return illegal.find(wep => mp.joaat(wep) === weapon);
 }
 
 /**

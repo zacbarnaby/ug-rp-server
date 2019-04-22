@@ -5,6 +5,10 @@
       <UserRegister v-else></UserRegister>
     </div>
 
+    <div v-if="loggedIn" class="wrapper auth-container">
+      <user-banking></user-banking>
+    </div>
+
     <notifications position="bottom right" class="notify"></notifications>
     <hud-phone ref="phone"></hud-phone>
   </div>
@@ -17,6 +21,8 @@
   import UserLogin from './user/login.vue';
   import UserRegister from './user/register.vue';
 
+  import Banking from './banking/banking.vue';
+
   //
   import PhoneHUD from './hud/phone.vue';
   import Notify from './hud/notifications.vue';
@@ -25,14 +31,14 @@
     el: '#app',
     store,
     components: {
-      UserLogin, UserRegister,
-      PhoneHUD, Notify
+      UserLogin, UserRegister, 
+      PhoneHUD, Notify, Banking,
     },
     created() {
       this.$on('send', data => mp.trigger('sendData', JSON.stringify(data)));
       this.$on('doesAccountExist', data => this.$store.dispatch('user/accountExists', data));
       this.$on('notify', data => {
-        window.vm.$emit('showNotification', data);
+        this.$root.$emit('showNotification', data);
       });
     },
     computed: mapState({

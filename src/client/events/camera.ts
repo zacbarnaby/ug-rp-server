@@ -3,7 +3,7 @@ mp.events.add('joinScenary', (state: boolean) => {
   scenaryCamera.pointAtCoord(-129.85623168945312, -464.7018127441406, 119.3843994140625);
   scenaryCamera.setActive(state);
   mp.game.cam.renderScriptCams(state, false, 0, true, false);
-  
+
   if (!state) {
     scenaryCamera.destroy();
   }

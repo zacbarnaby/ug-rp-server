@@ -8,7 +8,10 @@
     "bt.dat": true,
     "node.dll": true,
     "server.exe": true,
-    "client_packages/": false,
-    "packages/": true
+    "client_packages/": true,
+    "packages/": true,
+    "src/client_backup": true,
+    ".gitignore": true,
+    "*.json": true
   }
 }

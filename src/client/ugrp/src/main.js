@@ -10,10 +10,10 @@ window.receive = (eventName, ...args) => vm.$emit.apply(vm, [eventName, ...args]
 
 Vue.use(Notifications);
 
-window.vm = vm;
+//window.vm.$store.dispatch('user/loginResult', true);
 
 // probably running in the browser
 if (process.env.mode === 'development') {
-  
+  window.vm = vm;
   require('./debug/debug');
 }

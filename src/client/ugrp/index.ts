@@ -56,7 +56,6 @@ mp.events.add('authResult', (result: string) => {
     ui.hud(true);
     mp.gui.chat.show(true);
     mp.gui.cursor.show(false, false);
-    mp.events.call('joinScenary', false);
   }
 
   ui.execute('authResult', result);

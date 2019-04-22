@@ -2,13 +2,17 @@ import logger from '../utils/logger';
 import colors from '../utils/colors';
 import { xyInFrontOfPos, savePlayers } from '../utils/helpers';
 import './player';
+import { banks } from '../banks';
 
 export class EventManager {
   constructor() {
     mp.events.add({
       recieveClientData: this.recieveClientData,
       onAdminSpawnedVehicle: this.onAdminSpawnedVehicle,
+      playerChat: this.playerChat,
       savePlayers: this.savePlayers,
+      playerEnterColshape: this.playerEnterColshape,
+      playerExitColshape: this.playerExitColshape,
     });
   }
 
@@ -23,10 +27,11 @@ export class EventManager {
         player.register(player.name, password)
           .then((account: UGAccount) => {
             logger('RAGE', 'account', `${player.name} has created an account. (Id: ${account.id})`, 'info');
-
             player.call('authResult', [JSON.stringify({ action: 'register', success: true })]);
             player.call('notify', [`Welcome ${player.name}. You have succesfully created an account.`, 'Server', 'success']);
             player.handleLogin(account);
+            player.dimension = 0;
+            player.call('playerSetup', [5000]);
           })
           .catch(err => logger('RAGE', 'account', `Error creating an account for ${player.name}. (Error: ${err})`, 'error'));
         break;
@@ -40,6 +45,8 @@ export class EventManager {
             player.call('authResult', [JSON.stringify({ action: 'login', success: true })]);
             player.call('notify', [`Welcome back ${player.name}. You have succesfully logged in.`, 'Server', 'success']);
             player.handleLogin(account);
+            player.dimension = 0;
+            player.call('playerSetup', [5000]);
             player.spawn(JSON.parse(account.position));
           })
           .catch((err) => {
@@ -66,9 +73,45 @@ export class EventManager {
     logger('RAGE', 'server', `${player.name} has spawned a ${display}.`, 'info');
   }
 
+  playerChat(player: UGPlayerMp, text: string) {
+    mp.players.broadcast(`${player.name}: ${text}`);
+  }
+
   savePlayers() {
     savePlayers(() => {
       process.exit(0);
     });
+  }
+
+  playerEnterColshape(player: UGPlayerMp, shape: ColshapeMp) {
+    if (player.logged) {
+      banks.forEach((bank) => {
+        if (shape.id === bank.col_id) {
+          console.log(`${player.name} is inside of ${bank.name}`);
+          player.setVariable('currentBank', bank);
+        }
+        bank.markers.forEach((marker) => {
+          if (shape.id === marker) {
+            player.call('toggleButtonForBank', [true]);
+          }
+        });
+      });
+    }
+  }
+
+  playerExitColshape(player: UGPlayerMp, shape: ColshapeMp) {
+    if (player.logged) {
+      banks.forEach((bank) => {
+        if (shape.id === bank.col_id) {
+          console.log(`${player.name} has exited bank ${bank.name}.`);
+          player.setVariable('currentBank', null);
+        }
+        bank.markers.forEach((marker) => {
+          if (shape.id === marker) {
+            player.call('toggleButtonForBank', [false]);
+          }
+        });
+      });
+    }
   }
 }
