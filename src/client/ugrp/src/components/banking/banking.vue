@@ -18,13 +18,19 @@
   import Vue from 'vue';
 
   import Dashboard from './dashboard.vue';
-
+  import numeral from 'numeral';
+  
   export default Vue.component('user-banking', {
     data() {
       return {
         visible: false,
         currentPage: 'Dashboard',
-        balance: 500
+        balance: 500,
+        options: {
+          numeral: true,
+          numeralThousandsGroupStyle: 'thousand',
+          numeralPositiveOnly: true,
+        }
       };
     },
     created() {
@@ -35,6 +41,9 @@
       });
     },
     methods: {
+      toMoney(amount) {
+        return numeral(amount).format('0,0');
+      },
       change(page) {
         this.currentPage = page;
         this.visible = true;

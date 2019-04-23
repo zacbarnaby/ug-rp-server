@@ -5,8 +5,8 @@
         <h2>Enter withdrawal amount</h2>
         <div class="fader"> 
           <div class="fader-content">
-            <div class="balance"><span>$</span> <cleave v-model="depositAmount" class="money" :options="options" name="" placeholder="..."></cleave></div>
-            <h2>Available Balance: ${{ toMoney($parent.balance) }} </h2>
+            <div class="balance"><span>$</span> <cleave v-model="withdrawAmount" @input="checkHasAmount" class="money" :options="$parent.options" name="" placeholder="..."></cleave></div>
+            <h2>Available Balance: ${{ $parent.toMoney($parent.balance) }} </h2>
           </div>
         </div>
       </div>
@@ -19,7 +19,7 @@
       </div>
       <div class="col">
         <div class="buttons">
-          <button class="button margin float-right">Confirm</button>
+          <button class="button margin float-right" @click="withdraw">Confirm</button>
         </div>
       </div>
     </div>
@@ -29,39 +29,39 @@
 <script>
   import Vue from 'vue';
   import numeral from 'numeral';
-  
-  import Cleave from 'vue-cleave-component';
-  
+
   export default Vue.component('Withdraw', {
     data() {
       return {
-        depositAmount: 0,
-        notEnough: false,
-        options: {
-          numeral: true,
-          numeralThousandsGroupStyle: 'thousand'
-        }
+        withdrawAmount: 0,
       };
     },
     created() {
 
     },
     methods: {
-      toMoney(amount) {
-        return numeral(amount).format('0,0');
+      checkHasAmount() {
+        if(this.withdrawAmount >= this.$parent.balance) {
+          this.withdrawAmount = this.$parent.balance;
+        }
       },
-      update() {
-        let cleave = new cleave('.money', {
-          numeral: true,
-          numeralThousandsGroupStyle: 'thousand'
-        });
-      },
-      check(e) {
-        
-      },
+      withdraw() {
+        if(this.withdrawAmount <= this.$parent.balance) {
+          this.$parent.balance = numeral(this.$parent.balance).value() - numeral(this.withdrawAmount).value();
+          this.withdrawAmount = 0;
+          this.$parent.currentPage = 'Dashboard';
+        }
+      }
     },
-    components: {
-      Cleave
+    mounted() {
+      this.withdrawAmount = 0;
+      this.$el.addEventListener("keypress", (e) => {
+        console.log('test');
+        if(this.withdrawAmount >= this.$parent.balance) {
+          e.preventDefault();
+          this.withdrawAmount = this.$parent.balance;
+        }
+      });
     }
   });
 

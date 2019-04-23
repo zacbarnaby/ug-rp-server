@@ -5,8 +5,8 @@
         <h2>Enter deposit amount</h2>
         <div class="fader"> 
           <div class="fader-content">
-            <div class="balance"><span>$</span> <cleave v-model="depositAmount" class="money" :options="options" name="" placeholder="..."></cleave></div>
-            <h2>New Balance: ${{ toMoney(newBalance) }} </h2>
+            <div class="balance"><span>$</span> <cleave v-model="depositAmount" class="money" :options="$parent.options" name="" placeholder="..."></cleave></div>
+            <h2>New Balance: ${{ $parent.toMoney(calculate()) }} </h2>
           </div>
         </div>
       </div>
@@ -19,7 +19,7 @@
       </div>
       <div class="col">
         <div class="buttons">
-          <button class="button margin float-right">Confirm</button>
+          <button class="button margin float-right" @click="deposit">Confirm</button>
         </div>
       </div>
     </div>
@@ -28,36 +28,33 @@
 
 <script>
   import Vue from 'vue';
-  import numeral from 'numeral';
-  
-  import Cleave from 'vue-cleave-component';
-  
+  import numeral from 'numeral'
+
   export default Vue.component('Deposit', {
     data() {
       return {
         depositAmount: 0,
-        options: {
-          numeral: true,
-          numeralThousandsGroupStyle: 'thousand'
-        }
       };
     },
     created() {
 
     },
     methods: {
-      toMoney(amount) {
-        return numeral(amount).format('0,0');
-      },
       update() {
         let cleave = new cleave('.money', {
           numeral: true,
           numeralThousandsGroupStyle: 'thousand'
         });
+      },
+      calculate() {
+        return numeral(this.$parent.balance).value() + numeral(this.depositAmount).value();
+      },
+      deposit() {
+        // do player cash from client and do some checks
+        this.$parent.balance = numeral(this.$parent.balance).value() + numeral(this.depositAmount).value();
+        this.depositAmount = 0;
+        this.$parent.currentPage = 'Dashboard';
       }
-    },
-    components: {
-      Cleave
     }
   });
 

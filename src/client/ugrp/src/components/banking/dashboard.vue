@@ -6,7 +6,7 @@
         <div class="fader"> 
           <div class="fader-content">
             <h2>Available Balance:</h2>
-            <div class="balance">$1,234,567</div>
+            <div class="balance">${{ $parent.toMoney($parent.balance) }}</div>
           </div>
         </div>
       </div>
