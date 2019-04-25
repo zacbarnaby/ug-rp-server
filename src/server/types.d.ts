@@ -7,6 +7,7 @@ interface UGAccount {
   password: string,
   admin: number,
   position: string,
+  money: number
 }
 
 /**
@@ -17,6 +18,7 @@ interface UGPlayerMp extends PlayerMp {
   logged: Boolean,
   spawnedVehicles: Array<VehicleMp>,
   respawnTimer: NodeJS.Timeout,
+  money: Number,
 
   exists(): Promise<{}>;
   login(username: string, password: string): Promise<{}>;

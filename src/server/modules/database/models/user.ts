@@ -17,6 +17,9 @@ export class User extends Sequelize.Model {
         position: {
           type: Sequelize.STRING,
         },
+        money: {
+          type: Sequelize.INTEGER,
+        },
       },
       {
         sequelize,

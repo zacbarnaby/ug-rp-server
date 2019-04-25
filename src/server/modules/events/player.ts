@@ -4,6 +4,7 @@ import { robbingWeapon } from '../utils/helpers';
 
 mp.events.add('playerJoin', (player: UGPlayerMp) => {
   logger('RAGE', 'join', `${player.name} has joined the server.`, 'info');
+  player.call('playerInitialize');
 });
 
 mp.events.add('playerReady', (player: UGPlayerMp) => {

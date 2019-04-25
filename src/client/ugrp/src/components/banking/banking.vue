@@ -25,7 +25,7 @@
       return {
         visible: false,
         currentPage: 'Dashboard',
-        balance: 500,
+        balance: 0,
         options: {
           numeral: true,
           numeralThousandsGroupStyle: 'thousand',
@@ -34,10 +34,12 @@
       };
     },
     created() {
-      this.$root.$on('banking--toggle', (toggle) => {
-        console.log('test');
+      this.$root.$on('banking--toggle', (toggle, balance = 0) => {
         const state = (typeof toggle === 'undefined') ? !this.visible : toggle;
         this.visible = state;
+        if(balance) {
+          this.balance = balance;
+        }
       });
     },
     methods: {

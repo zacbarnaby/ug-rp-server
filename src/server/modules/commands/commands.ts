@@ -113,6 +113,6 @@ export class Commands {
   }
 
   test(player: UGPlayerMp) {
-   
+    console.log(player.money);
   }
 }

@@ -44,15 +44,17 @@ Object.assign(mp.Player.prototype, {
     return database.user.update({ position, admin: this.admin }, { where: { id: this.accountid } });
   },
   handleLogin(account: UGAccount) {
-    const { id, admin } = account;
+    const { id, admin, money } = account;
 
     this.logged = true;
     this.accountid = id;
     this.admin = admin;
     this.spawnedVehicles = [];
+    this.money = money;
 
     this.setVariable('isRobbing', false);
-
+    this.setVariable('money', money);
+    this.setVariable('logged', 1);
     mp.events.call('sendClientBankData', this);
   },
 });
